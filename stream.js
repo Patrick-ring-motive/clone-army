@@ -56,3 +56,19 @@ for(const record of [Request,Response]){
     return _stream.apply(this.slice(), args);
   },_stream);
 })();
+
+if (!responseAcceptsDuckTypedStream) {
+
+const _Response = Response;
+const $Response = class Response extends _Response {
+  constructor(body, init) {
+    const isStreamLike = body instanceof ReadableStream || typeof body?.getReader === 'function';
+    if (isStreamLike) {
+      body = cloneStream(body);
+    }
+    super(body, init);
+  }
+};
+
+globalThis.Response = $Response;
+}
