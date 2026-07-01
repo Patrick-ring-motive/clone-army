@@ -5,7 +5,7 @@ function cloneHeaders(headers){
     const clone = new Headers();
     for(const [key,value] of headers){
       try{
-        if(!/^set-cookie$/i.test(key){
+        if(!/^set-cookie$/i.test(key)){
           clone.append(key,value);
         }
       }catch{
@@ -19,7 +19,7 @@ function cloneHeaders(headers){
           clone.append('set-cookie',cookie);
         }
       }else{
-        clone.append('set-cookie',headers.get('set-cookie');
+        clone.append('set-cookie',headers.get('set-cookie'));
       }
     }
     return clone;
