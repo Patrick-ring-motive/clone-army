@@ -25,13 +25,13 @@ function cloneStream(stream) {
   return $clone;
 }
 
-function patchBodyGetter(record, cloneMethod = 'clone') {
+(()=>{
+
+for(const record of [Request,Response]){
   const proto = record.prototype;
   const desc = Object.getOwnPropertyDescriptor(proto, 'body');
   if (!desc?.get) return;
-
   const _body = desc.get;
-
   Object.defineProperty(proto, 'body', {
     get:function body() {
         return _body.call(this.clone());
@@ -39,9 +39,8 @@ function patchBodyGetter(record, cloneMethod = 'clone') {
     configurable: true
   });
 }
-
-patchBodyGetter(Request);
-patchBodyGetter(Response);
+  
+})();
 
 
 (() => {
