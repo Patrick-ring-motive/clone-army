@@ -37,7 +37,7 @@ function cloneStream(stream) {
 for(const record of [Request,Response]){
   const proto = record.prototype;
   const desc = Object.getOwnPropertyDescriptor(proto, 'body');
-  if (!desc?.get) return;
+  if (!desc?.get) continue;
   const _body = desc.get;
   Object.defineProperty(proto, 'body', {
     get:function body() {
