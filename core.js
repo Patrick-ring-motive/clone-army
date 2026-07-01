@@ -1,31 +1,33 @@
-function cloneMap(map){
-  try{
+function cloneMap(map) {
+  try {
     return structuredClone(map);
-  }catch{
+  } catch {
     return new Map(map);
   }
 }
 
-function cloneSet(set){
-  try{
+function cloneSet(set) {
+  try {
     return structuredClone(set);
-  }catch{
+  } catch {
     return new Set(set);
   }
 }
 
-function cloneArray(arr){
-  try{
+function cloneArray(arr) {
+  try {
     return structuredClone(arr);
-  }catch{
+  } catch {
     return [...arr];
   }
 }
 
-function cloneObject(obj){
-  try{
+function cloneObject(obj) {
+  try {
     return structuredClone(obj);
-  }catch{
-    return {...obj};
+  } catch {
+    return {
+      ...obj
+    };
   }
 }
