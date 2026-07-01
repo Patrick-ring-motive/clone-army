@@ -26,6 +26,6 @@ function cloneObject(obj){
   try{
     return structuredClone(obj);
   }catch{
-    return Object.create(obj);
+    return {...obj};
   }
 }
