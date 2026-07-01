@@ -57,6 +57,19 @@ for(const record of [Request,Response]){
   },_stream);
 })();
 
+(()=>{
+const responseAcceptsDuckTypedStream = (() => {
+  try {
+    const stream = new Response('duck').body;
+    cloneStream(stream);
+    const duck = new Response(stream);
+    new Response(duck);
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
 if (!responseAcceptsDuckTypedStream) {
 
 const _Response = Response;
@@ -72,3 +85,4 @@ const $Response = class Response extends _Response {
 
 globalThis.Response = $Response;
 }
+})();
