@@ -26,6 +26,13 @@ function cloneStream(stream) {
 }
 
 (()=>{
+  const _getReader = ReadableStream.prototype.getReader;
+  ReadableStream.prototype.getReader = Object.setPrototypeOf(function getReader(...args){
+    return _getReader.apply(cloneStream(this),args)
+  },_getReader);
+})();
+
+(()=>{
 
 for(const record of [Request,Response]){
   const proto = record.prototype;
@@ -45,7 +52,7 @@ for(const record of [Request,Response]){
 
 (() => {
   const _stream = Blob.prototype.stream;
-  Blob.prototype.stream = function stream(...args) {
+  Blob.prototype.stream = Object.setPrototypeOf(function stream(...args) {
     return _stream.apply(this.slice(), args);
-  };
+  },_stream);
 })();
