@@ -10,6 +10,21 @@ const nonLockingClone = (() => {
   }
 })();
 
+function cloneStream(stream) {
+  if (nonLockingClone) {
+    return new Response(stream).clone().body;
+  }
+  const [$this, $clone] = stream.tee();
+  const proxy = new Proxy({}, {
+    get(_, prop) {
+      const value = $this[prop];
+      return typeof value === 'function' ? value.bind($this) : value;
+    }
+  });
+  Object.setPrototypeOf(stream, proxy);
+  return $clone;
+}
+
 function patchBodyGetter(record, cloneMethod = 'clone') {
   const proto = record.prototype;
   const desc = Object.getOwnPropertyDescriptor(proto, 'body');
